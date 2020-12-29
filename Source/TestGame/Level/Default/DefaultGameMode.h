@@ -13,5 +13,6 @@ UCLASS()
 class TESTGAME_API ADefaultGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+	ADefaultGameMode();
 	
 };
