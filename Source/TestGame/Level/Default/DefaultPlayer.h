@@ -15,6 +15,8 @@ public:
 	// Sets default values for this pawn's properties
 	ADefaultPlayer();
 
+	class UCameraComponent* Camera;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
