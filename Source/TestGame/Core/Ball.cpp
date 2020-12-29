@@ -9,12 +9,12 @@ ABall::ABall()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	OnClicked.AddUniqueDynamic(this, &ABall::OnSelected);
 	
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
 	BallMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BallMesh"));
 	BallMesh->SetupAttachment(GetRootComponent());
-
 	ConstructorHelpers::FObjectFinder<UStaticMesh> BallMeshLocation(TEXT("/Game/BasicShapes/Sphere.Sphere"));
 	if (BallMeshLocation.Succeeded())
 	{
@@ -24,7 +24,51 @@ ABall::ABall()
 		BallMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SetActorEnableCollision(true);
 	}
-	OnClicked.AddUniqueDynamic(this, &ABall::OnSelected);
+	int RandomIntForMaterial = FMath::RandRange(1, 4);
+	ConstructorHelpers::FObjectFinder<UMaterial> BallMeshMaterialRedLocation(TEXT("/Game/Materials/BallRed.BallRed"));
+	ConstructorHelpers::FObjectFinder<UMaterial> BallMeshMaterialGreenLocation(TEXT("/Game/Materials/BallGreen.BallGreen"));
+	ConstructorHelpers::FObjectFinder<UMaterial> BallMeshMaterialBlueLocation(TEXT("/Game/Materials/BallBlue.BallBlue"));
+	ConstructorHelpers::FObjectFinder<UMaterial> BallMeshMaterialYellowLocation(TEXT("/Game/Materials/BallYellow.BallYellow"));
+	switch (RandomIntForMaterial)
+	{
+	case 1:
+		// Red Material, Type 1.
+		if (BallMeshMaterialRedLocation.Succeeded())
+		{
+			BallMesh->SetMaterial(0, BallMeshMaterialRedLocation.Object);
+			BallType = 1;
+		}
+		break;
+	case 2:
+		// Green Material, Type 2.
+
+		if (BallMeshMaterialGreenLocation.Succeeded())
+		{
+			BallMesh->SetMaterial(0, BallMeshMaterialGreenLocation.Object);
+			BallType = 2;
+		}
+		break;
+	case 3:
+		// Blue Material, Type 3.
+
+		if (BallMeshMaterialBlueLocation.Succeeded())
+		{
+			BallMesh->SetMaterial(0, BallMeshMaterialBlueLocation.Object);
+			BallType = 3;
+		}
+		break;
+	case 4:
+		// Yellow Material, Type 4.
+
+		if (BallMeshMaterialYellowLocation.Succeeded())
+		{
+			BallMesh->SetMaterial(0, BallMeshMaterialYellowLocation.Object);
+			BallType = 4;
+		}
+		break;
+	default:
+		break;
+	}
 
 }
 
@@ -32,7 +76,6 @@ ABall::ABall()
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	
 }
 

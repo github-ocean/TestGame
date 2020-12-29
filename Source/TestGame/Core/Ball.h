@@ -18,6 +18,8 @@ protected:
 public:	
 //VARIABLES
 
+	int BallType = 0;
+
 	class UStaticMeshComponent* BallMesh;
 
 //FUNCTIONS
