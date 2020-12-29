@@ -6,5 +6,5 @@
 ADefaultPlayerController::ADefaultPlayerController()
 {
 	bShowMouseCursor = true;
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController is working."));
+	bEnableClickEvents = true;
 }

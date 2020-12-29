@@ -10,6 +10,8 @@ ABall::ABall()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+
 	BallMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BallMesh"));
 	BallMesh->SetupAttachment(GetRootComponent());
 
@@ -18,7 +20,11 @@ ABall::ABall()
 	{
 		BallMesh->SetStaticMesh(BallMeshLocation.Object);
 		BallMesh->SetWorldScale3D(FVector(0.1f, 0.1f, 0.1f));
+		BallMesh->SetGenerateOverlapEvents(true);
+		BallMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		SetActorEnableCollision(true);
 	}
+	OnClicked.AddUniqueDynamic(this, &ABall::OnSelected);
 
 }
 
@@ -26,6 +32,7 @@ ABall::ABall()
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	
 }
 
@@ -36,3 +43,8 @@ void ABall::Tick(float DeltaTime)
 
 }
 
+void ABall::OnSelected(AActor* Target, FKey ButtonPressed)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Clicked."));
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString("Clicking."));
+}

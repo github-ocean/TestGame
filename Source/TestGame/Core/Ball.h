@@ -27,4 +27,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	UFUNCTION()
+	void OnSelected(AActor* Target, FKey ButtonPressed);
+
 };
