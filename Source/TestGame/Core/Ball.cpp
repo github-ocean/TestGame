@@ -88,6 +88,6 @@ void ABall::Tick(float DeltaTime)
 
 void ABall::OnSelected(AActor* Target, FKey ButtonPressed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Clicked."));
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString("Clicking."));
+	//UE_LOG(LogTemp, Warning, TEXT("Clicked."));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString("Clicking."));
 }

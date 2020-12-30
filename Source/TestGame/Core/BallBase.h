@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Ball.h"
 #include "BallBase.generated.h"
 
 UCLASS()
@@ -20,7 +21,17 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+//VARIABLES
+
+	TSubclassOf<ABall> ActorToSpawn;
+	TArray<ABall*> Sloats;
+
+//FUNCTIONS
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+
 
 };
