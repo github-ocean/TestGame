@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "BallBase.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
@@ -22,6 +23,8 @@ public:
 
 	class UStaticMeshComponent* BallMesh;
 
+	class ABallBase* BallBaseRef;
+
 //FUNCTIONS
 
 	// Sets default values for this actor's properties
@@ -32,5 +35,6 @@ public:
 public:
 	UFUNCTION()
 	void OnSelected(AActor* Target, FKey ButtonPressed);
+
 
 };

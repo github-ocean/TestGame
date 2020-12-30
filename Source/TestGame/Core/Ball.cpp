@@ -13,6 +13,7 @@ ABall::ABall()
 	
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
+	//Setup ball mesh and material.
 	BallMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BallMesh"));
 	BallMesh->SetupAttachment(GetRootComponent());
 	ConstructorHelpers::FObjectFinder<UStaticMesh> BallMeshLocation(TEXT("/Game/BasicShapes/Sphere.Sphere"));
@@ -88,6 +89,6 @@ void ABall::Tick(float DeltaTime)
 
 void ABall::OnSelected(AActor* Target, FKey ButtonPressed)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Clicked."));
-	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString("Clicking."));
+	ABall* BallRef = this;
+	BallBaseRef->OnAnyBallSelected(BallRef);
 }

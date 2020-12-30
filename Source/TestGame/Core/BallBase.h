@@ -2,9 +2,10 @@
 
 #pragma once
 
+#include "Ball.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Ball.h"
+#include "Engine/World.h"
 #include "BallBase.generated.h"
 
 UCLASS()
@@ -24,14 +25,13 @@ public:
 
 //VARIABLES
 
-	TSubclassOf<ABall> ActorToSpawn;
-	TArray<ABall*> Sloats;
+	TArray<class ABall*> Sloats;
 
 //FUNCTIONS
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
+	void OnAnyBallSelected(ABall* BallRef);
 
 };
