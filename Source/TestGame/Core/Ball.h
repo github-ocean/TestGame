@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "BallBase.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
@@ -25,6 +24,8 @@ public:
 
 	class ABallBase* BallBaseRef;
 
+	class UMaterialInstanceDynamic* DynamicMaterial;
+
 //FUNCTIONS
 
 	// Sets default values for this actor's properties
@@ -32,9 +33,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-public:
 	UFUNCTION()
 	void OnSelected(AActor* Target, FKey ButtonPressed);
 
-
+	void CreateDynamicMaterial();
+	void ChangeMaterialLight(bool LightValue);
 };

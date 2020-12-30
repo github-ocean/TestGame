@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Ball.h"
+#include "BallBase.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInterface.h"
 
 // Sets default values
 ABall::ABall()
@@ -38,6 +40,7 @@ ABall::ABall()
 		{
 			BallMesh->SetMaterial(0, BallMeshMaterialRedLocation.Object);
 			BallType = 1;
+			CreateDynamicMaterial();
 		}
 		break;
 	case 2:
@@ -47,6 +50,7 @@ ABall::ABall()
 		{
 			BallMesh->SetMaterial(0, BallMeshMaterialGreenLocation.Object);
 			BallType = 2;
+			CreateDynamicMaterial();
 		}
 		break;
 	case 3:
@@ -56,6 +60,7 @@ ABall::ABall()
 		{
 			BallMesh->SetMaterial(0, BallMeshMaterialBlueLocation.Object);
 			BallType = 3;
+			CreateDynamicMaterial();
 		}
 		break;
 	case 4:
@@ -65,6 +70,7 @@ ABall::ABall()
 		{
 			BallMesh->SetMaterial(0, BallMeshMaterialYellowLocation.Object);
 			BallType = 4;
+			CreateDynamicMaterial();
 		}
 		break;
 	default:
@@ -92,3 +98,17 @@ void ABall::OnSelected(AActor* Target, FKey ButtonPressed)
 	ABall* BallRef = this;
 	BallBaseRef->OnAnyBallSelected(BallRef);
 }
+
+void ABall::CreateDynamicMaterial()
+{
+	DynamicMaterial = UMaterialInstanceDynamic::Create(BallMesh->GetMaterial(0), NULL);
+	BallMesh->SetMaterial(0, DynamicMaterial);
+}
+
+void ABall::ChangeMaterialLight(bool LightValue)
+{
+	float Light = LightValue;
+	(Light != 0) ? Light = 0.3f : Light = 0.f;
+	DynamicMaterial->SetScalarParameterValue(TEXT("Light"), Light);
+}
+

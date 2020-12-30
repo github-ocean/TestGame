@@ -2,10 +2,8 @@
 
 #pragma once
 
-#include "Ball.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Engine/World.h"
 #include "BallBase.generated.h"
 
 UCLASS()
@@ -25,7 +23,14 @@ public:
 
 //VARIABLES
 
-	TArray<class ABall*> Sloats;
+	int CurrentSelectedBallIndex;
+
+	TArray<class ABall*> BallSloat;
+	TArray<FVector> SloatLocation;
+
+	bool SelectionStage[3] {false, false, false};
+	int SelectedBalls[3];
+
 
 //FUNCTIONS
 
@@ -34,4 +39,13 @@ public:
 
 	void OnAnyBallSelected(ABall* BallRef);
 
+	void OnFirstSelection();
+	void OnSecondSelection();
+	void OnThirdSelection();
+
+	bool IsSameType(int PreviousSelection);
+	bool IsInRange(int PreviousSelection);
+	
+	void DestroySelectedBalls();
+	void FillTheGap();
 };
