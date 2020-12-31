@@ -56,17 +56,22 @@ void ABallBase::Tick(float DeltaTime)
 void ABallBase::OnAnyBallSelected(ABall* BallRef)
 {
 	CurrentSelectedBallIndex = BallSloat.Find(BallRef);
-	if (SelectionStage[0])
+	if (!SelectionStage[0])
 	{
-		if (SelectionStage[1])
-			OnThirdSelection();
-		else
-			OnSecondSelection();
+		OnFirstSelection();
 	}
 	else
-		OnFirstSelection();
+	{
+		if (!SelectionStage[1])
+			OnSecondSelection();
+		else
+			OnThirdSelection();
+	}		
 }
 
+// Selection Checkes.
+
+// First Selection.
 void ABallBase::OnFirstSelection()
 {
 	BallSloat[CurrentSelectedBallIndex]->ChangeMaterialLight(true);
@@ -74,6 +79,7 @@ void ABallBase::OnFirstSelection()
 	SelectedBalls[0] = CurrentSelectedBallIndex;
 }
 
+// Second Selection.
 void ABallBase::OnSecondSelection()
 {
 	BallSloat[CurrentSelectedBallIndex]->ChangeMaterialLight(true);
@@ -89,6 +95,7 @@ void ABallBase::OnSecondSelection()
 	}
 }
 
+// Third Selection.
 void ABallBase::OnThirdSelection()
 {
 	BallSloat[CurrentSelectedBallIndex]->ChangeMaterialLight(true);
@@ -98,7 +105,7 @@ void ABallBase::OnThirdSelection()
 		SelectedBalls[2] = CurrentSelectedBallIndex;
 		DestroySelectedBalls();
 		FillTheGap();
-		FillTheGap();
+		ClearVariables();
 	}
 	else
 	{
@@ -110,11 +117,13 @@ void ABallBase::OnThirdSelection()
 	}
 }
 
+// Checking if object is same type.
 bool ABallBase::IsSameType(int PreviousSelection)
 {
 	return BallSloat[CurrentSelectedBallIndex]->BallType == BallSloat[SelectedBalls[PreviousSelection]]->BallType;
 }
 
+// Checking if new selection is in range of old selection.
 bool ABallBase::IsInRange(int PreviousSelection)
 {
 	int PreviousIndex = SelectedBalls[PreviousSelection];
@@ -144,39 +153,52 @@ bool ABallBase::IsInRange(int PreviousSelection)
 		return false;
 }
 
+// when user select all correct objects, it will destroy all selected objects.
 void ABallBase::DestroySelectedBalls()
 {
 
 	for (int i=0; i < 3; i++)
 	{
 		GetWorld()->DestroyActor(BallSloat[SelectedBalls[i]]);
+		BallSloat[SelectedBalls[i]] = NULL;
 	}
 }
 
+// Spawning a new object on empty gaps.
 void ABallBase::FillTheGap()
 {
 	for (int i = 0; i < 3; i++)
 	{
-
 		int LastEmptyPositionInColumn = SelectedBalls[i];
-		
-		for (int LoopVar = SelectedBalls[i]; LoopVar < 42;)
+
+		for (int LoopVarJ = SelectedBalls[i]; LoopVarJ < 42;)
 		{
-			if (BallSloat[LoopVar] != NULL)
-			{
-				BallSloat[LastEmptyPositionInColumn] = BallSloat[LoopVar];
+			if (BallSloat[LoopVarJ] != NULL)
+			{	
+				BallSloat.Swap(LastEmptyPositionInColumn, LoopVarJ);
+				BallSloat[LastEmptyPositionInColumn]->SetActorLocation(SloatLocation[LastEmptyPositionInColumn]);
 				LastEmptyPositionInColumn += 6;
-				BallSloat[LoopVar] = NULL;
+				BallSloat[LoopVarJ] = NULL;
 			}
-			LoopVar += 6;
+			LoopVarJ += 6;
 		}
 
-		for (int LoopVar = LastEmptyPositionInColumn; LoopVar < 42;)
+		for (int LoopVarK = LastEmptyPositionInColumn; LoopVarK < 42;)
 		{
-			ABall* BallRef = GetWorld()->SpawnActor<ABall>(SloatLocation[LoopVar], FRotator(0.f, 0.f, 0.f));
+			ABall* BallRef = GetWorld()->SpawnActor<ABall>(SloatLocation[LoopVarK], FRotator(0.f, 0.f, 0.f));
 			BallRef->BallBaseRef = this;
-			BallSloat.Add(BallRef);
-			LoopVar += 6;
+			BallSloat[LoopVarK] = BallRef;
+			LoopVarK += 6;
 		}
+	}
+}
+
+// Clear Varialbes.
+void ABallBase::ClearVariables()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		SelectionStage[i] = false;
+		SelectedBalls[i] = 0;
 	}
 }

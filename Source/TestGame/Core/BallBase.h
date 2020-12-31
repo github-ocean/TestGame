@@ -25,8 +25,8 @@ public:
 
 	int CurrentSelectedBallIndex;
 
-	TArray<class ABall*> BallSloat;
 	TArray<FVector> SloatLocation;
+	TArray<class ABall*> BallSloat;
 
 	bool SelectionStage[3] {false, false, false};
 	int SelectedBalls[3];
@@ -48,4 +48,5 @@ public:
 	
 	void DestroySelectedBalls();
 	void FillTheGap();
+	void ClearVariables();
 };
