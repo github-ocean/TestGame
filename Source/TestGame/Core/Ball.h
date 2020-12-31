@@ -26,6 +26,8 @@ public:
 
 	class UMaterialInstanceDynamic* DynamicMaterial;
 
+	class URotatingMovementComponent* RotationComponent;
+
 //FUNCTIONS
 
 	// Sets default values for this actor's properties

@@ -31,6 +31,12 @@ public:
 	bool SelectionStage[3] {false, false, false};
 	int SelectedBalls[3];
 
+	UPROPERTY(BlueprintReadOnly)
+	int MovesLeft;
+
+	UPROPERTY(BlueprintReadOnly)
+	int Score;
+
 
 //FUNCTIONS
 
@@ -48,5 +54,5 @@ public:
 	
 	void DestroySelectedBalls();
 	void FillTheGap();
-	void ClearVariables();
+	void SetupVariables();
 };

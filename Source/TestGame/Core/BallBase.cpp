@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Ball.h"
 #include "BallBase.h"
+#include "Ball.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -18,6 +18,9 @@ void ABallBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+// Initialize Moves variable.
+	MovesLeft = 15;
+
 // Initialize Sloat Location Array.
 	float InitialLocationX = -60.f;
 	float InitialLocationZ = -60.f;
@@ -55,6 +58,8 @@ void ABallBase::Tick(float DeltaTime)
 // Run when player select any ball.
 void ABallBase::OnAnyBallSelected(ABall* BallRef)
 {
+	MovesLeft--;
+
 	CurrentSelectedBallIndex = BallSloat.Find(BallRef);
 	if (!SelectionStage[0])
 	{
@@ -105,7 +110,7 @@ void ABallBase::OnThirdSelection()
 		SelectedBalls[2] = CurrentSelectedBallIndex;
 		DestroySelectedBalls();
 		FillTheGap();
-		ClearVariables();
+		SetupVariables();
 	}
 	else
 	{
@@ -187,15 +192,17 @@ void ABallBase::FillTheGap()
 		{
 			ABall* BallRef = GetWorld()->SpawnActor<ABall>(SloatLocation[LoopVarK], FRotator(0.f, 0.f, 0.f));
 			BallRef->BallBaseRef = this;
-			BallSloat[LoopVarK] = BallRef;
+			if(BallSloat[LoopVarK] == NULL)
+				BallSloat[LoopVarK] = BallRef;
 			LoopVarK += 6;
 		}
 	}
 }
 
 // Clear Varialbes.
-void ABallBase::ClearVariables()
+void ABallBase::SetupVariables()
 {
+	Score++;
 	for (int i = 0; i < 3; i++)
 	{
 		SelectionStage[i] = false;

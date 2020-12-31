@@ -2,27 +2,31 @@
 
 #include "Ball.h"
 #include "BallBase.h"
-#include "UObject/ConstructorHelpers.h"
+#include "GameFramework/RotatingMovementComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
+#include "UObject/ConstructorHelpers.h"
 
 // Sets default values
 ABall::ABall()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	OnClicked.AddUniqueDynamic(this, &ABall::OnSelected);
 	
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	//Setup ball mesh and material.
+//Setup Rotation Component.
+	RotationComponent = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotationComponent"));
+
+//Setup ball mesh and material.
 	BallMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BallMesh"));
 	BallMesh->SetupAttachment(GetRootComponent());
-	ConstructorHelpers::FObjectFinder<UStaticMesh> BallMeshLocation(TEXT("/Game/BasicShapes/Sphere.Sphere"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> BallMeshLocation(TEXT("/Game/Mesh/Ball.Ball"));
 	if (BallMeshLocation.Succeeded())
 	{
 		BallMesh->SetStaticMesh(BallMeshLocation.Object);
-		BallMesh->SetWorldScale3D(FVector(0.1f, 0.1f, 0.1f));
+		BallMesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 		BallMesh->SetGenerateOverlapEvents(true);
 		BallMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SetActorEnableCollision(true);
@@ -35,7 +39,7 @@ ABall::ABall()
 	switch (RandomIntForMaterial)
 	{
 	case 1:
-		// Red Material, Type 1.
+// Red Material, Type 1.
 		if (BallMeshMaterialRedLocation.Succeeded())
 		{
 			BallMesh->SetMaterial(0, BallMeshMaterialRedLocation.Object);
@@ -44,7 +48,7 @@ ABall::ABall()
 		}
 		break;
 	case 2:
-		// Green Material, Type 2.
+// Green Material, Type 2.
 
 		if (BallMeshMaterialGreenLocation.Succeeded())
 		{
@@ -54,7 +58,7 @@ ABall::ABall()
 		}
 		break;
 	case 3:
-		// Blue Material, Type 3.
+// Blue Material, Type 3.
 
 		if (BallMeshMaterialBlueLocation.Succeeded())
 		{
@@ -64,7 +68,7 @@ ABall::ABall()
 		}
 		break;
 	case 4:
-		// Yellow Material, Type 4.
+// Yellow Material, Type 4.
 
 		if (BallMeshMaterialYellowLocation.Succeeded())
 		{
