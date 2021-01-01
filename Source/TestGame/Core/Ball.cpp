@@ -115,4 +115,3 @@ void ABall::ChangeMaterialLight(bool LightValue)
 	(Light != 0) ? Light = 0.3f : Light = 0.f;
 	DynamicMaterial->SetScalarParameterValue(TEXT("Light"), Light);
 }
-

@@ -10,7 +10,6 @@ ABallBase::ABallBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	
 }
 
 // Called when the game starts or when spawned
@@ -180,9 +179,9 @@ void ABallBase::FillTheGap()
 		{
 			if (BallSloat[LoopVarJ] != NULL)
 			{	
-				BallSloat.Swap(LastEmptyPositionInColumn, LoopVarJ);
+				BallSloat[LastEmptyPositionInColumn] = BallSloat[LoopVarJ];
 				BallSloat[LastEmptyPositionInColumn]->SetActorLocation(SloatLocation[LastEmptyPositionInColumn]);
-				LastEmptyPositionInColumn += 6;
+ 				LastEmptyPositionInColumn += 6;
 				BallSloat[LoopVarJ] = NULL;
 			}
 			LoopVarJ += 6;
